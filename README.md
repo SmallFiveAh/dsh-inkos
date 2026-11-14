@@ -131,12 +131,17 @@ dsh-inkos/
 **方式一：直接从 GitHub 装（推荐）**
 
 ```bash
-dsh plugin --profile desktop add github:SmallFiveAh/dsh-inkos
+dsh plugin --profile desktop add github:SmallFiveAh/dsh-inkos \
+  --allow-build=@google/genai --allow-build=protobufjs
 ```
 
 `dsh` 就是 DSH 自带那个 CLI，桌面版在安装目录的 `resources/runtime/cli/bin/` 下
 （Windows 是 `dsh.cmd`，macOS 是 `.../Contents/Resources/runtime/cli/bin/dsh`）。
-它会连带把 InkOS 的依赖一起装上。
+
+那两个 `--allow-build` 是给 InkOS 传递依赖的构建脚本放行。pnpm 11 默认要求审批，
+不放行会以 `ERR_PNPM_IGNORED_BUILDS` 失败——**这一步必须在第一次安装时就带上**：
+如果第一次失败了，包其实已经落地，重跑只会跳过注册，`bundles` 里不会有 `dsh-inkos`，
+入口也就不会出现（这时删掉 profile 里该依赖重装即可）。
 
 **方式二：从本地克隆装（改代码时用这个）**
 
