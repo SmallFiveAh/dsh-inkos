@@ -1,0 +1,66 @@
+{
+  "name": "dsh-inkos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "把 InkOS Studio 原样嵌进 DeepSeek Harness：左侧栏「新建对话」下方多一枚入口，点击后在舞台区内直接打开创作工作台。",
+  "type": "module",
+  "main": "lib/host.js",
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmallFiveAh/dsh-inkos.git"
+  },
+  "homepage": "https://github.com/SmallFiveAh/dsh-inkos#readme",
+  "bugs": {
+    "url": "https://github.com/SmallFiveAh/dsh-inkos/issues"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "inkos",
+    "novel",
+    "studio"
+  ],
+  "engines": {
+    "node": ">=22.16",
+    "dsh": ">=0.2.1-rc.2"
+  },
+  "scripts": {
+    "smoke": "node scripts/smoke.mjs",
+    "check": "node scripts/selfcheck.mjs && node scripts/client-harness.mjs",
+    "update:status": "node scripts/update-status.mjs",
+    "update:test": "node scripts/update-e2e.mjs"
+  },
+  "dependencies": {
+    "@actalk/inkos": "1.8.0",
+    "@actalk/inkos-studio": "1.8.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "slots"
+      ],
+      "external": [
+        "react"
+      ]
+    }
+  },
+  "exports": {
+    ".": "./lib/host.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "scripts",
+    "cordis.patch.yml",
+    "README.md"
+  ]
+}

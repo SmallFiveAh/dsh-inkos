@@ -1,0 +1,10 @@
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# 依赖已在 package.json 里精确锁定；npm 的 lock 对 pnpm 安装没有意义
+package-lock.json
+
+# DSH / 工作区内部数据，不进公开仓库
+.workbuddy/

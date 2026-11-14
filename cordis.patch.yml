@@ -1,0 +1,37 @@
+# dsh-inkos · bundle patch
+#
+# 作用只有一件事：把本插件这一行插进 profile 的插件层栈。
+#   id   —— 只在本层内寻址；后续 patch 可以按 id 改 config / disabled，也是日志前缀
+#   name —— 必须与 package.json 的 name 完全一致，否则加载器只告警然后跳过
+#           （这是 DSH 里最常见的「装了没反应」）
+#
+# config 是整行替换而不是深合并：这里写下的字段就是插件收到的全部配置，
+# 没写的字段由 lib/host.js 里的 DEFAULTS 补齐。
+- insert:
+    - id: inkos
+      name: 'dsh-inkos'
+      config:
+        # InkOS 项目目录（含 inkos.json）。留空则使用 ~/.dsh/inkos/project，
+        # 首次启动时按 `inkos init` 同一套逻辑自动建目录。
+        # 想接到自己已有的小说工程，把这里改成那个目录的绝对路径即可。
+        projectRoot: null
+        # Studio 监听端口。0 表示每个宿主进程自动挑一个空闲端口。
+        port: 0
+        # 项目语言：zh | en（只影响自动建项目时的默认值）
+        language: zh
+        # 等待 Studio 就绪的上限（毫秒）。首次启动要加载核心依赖，给足时间。
+        readyTimeoutMs: 90000
+        # 网关：摘掉 Studio 样式里指向外网的字体内联导入。
+        # 上游 CSS 第一行 import 了 Google Fonts，网络取不到时会把首屏
+        # 阻塞到超时（实测 30 秒白屏）。关掉它会退回原样直连的旧行为。
+        blockExternalAssets: true
+        # ── 上游自动更新 ──────────────────────────────────────────
+        # InkOS 发新版后，插件自己装、自己重启、验不过自己回滚。
+        autoUpdate: true
+        # 允许的升级跨度：patch（只补丁）| minor（小版本）| latest（含大版本）| off（关）
+        # 默认 latest：配合「验证失败自动回滚」，能第一时间跟上界面改动。
+        updatePolicy: latest
+        # 多久查一次（小时）。0.5 表示半小时。
+        updateCheckHours: 6
+        # 更新状态文件（记录上次检查、回滚过的坏版本），默认 ~/.dsh/inkos/updater.json
+        updateStateFile: null
