@@ -6,6 +6,9 @@
 
 ![DSH 舞台内的 InkOS Studio](docs/screenshot.png)
 
+> 下载：[Releases](https://github.com/SmallFiveAh/dsh-inkos/releases) · 当前 `v0.1.0`
+> （源码包，不含依赖；也可直接从仓库装，见下文）
+
 ```
 DSH 左侧栏                        DSH 舞台区
 ┌──────────────────┐  点击   ┌──────────────────────────────┐
